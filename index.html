@@ -12,19 +12,29 @@
             background-color: #f8f8f8; 
         }
         form { 
-            max-width: 400px; 
+            max-width: 450px; 
             margin: auto; 
-            padding: 20px; 
+            padding: 30px; 
             border: 1px solid #ccc; 
             border-radius: 10px; 
             text-align: left; 
             background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         label { display: block; margin-top: 10px; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; }
-        button { background: #007bff; color: white; border: none; cursor: pointer; }
-        button:hover { background: #0056b3; }
+        input, select, button { width: 100%; padding: 12px; margin-top: 5px; box-sizing: border-box; }
+        button { background: #ec7878; color: white; border: none; cursor: pointer; padding: 12px; font-size: 16px; margin-top: 20px; display: block; }
+        button:hover { background: #d66b6b; }
         h1, h2 { text-align: center; }
+        .confirmation-text { 
+            margin-top: 20px; 
+            font-size: 14px; 
+            color: #333; 
+            text-align: center; 
+            max-width: 450px; 
+            margin-left: auto; 
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +57,7 @@
         </select>
 
         <label for="office">Офис на Econt:</label>
-        <input type="text" id="office" name="office">
+        <input type="text" id="office" name="office" placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'">
 
         <label for="address">Адрес (ако е необходимо):</label>
         <input type="text" id="address" name="address" disabled>
@@ -55,11 +65,12 @@
         <label for="payment">Начин на плащане:</label>
         <select id="payment" name="payment" required>
             <option value="cod">Наложен платеж</option>
-            <option value="online">Онлайн плащане</option>
         </select>
 
         <button type="submit">Потвърди поръчката</button>
     </form>
+    
+    <p class="confirmation-text">Ще получите мейл с потвърждение за вашата пратка</p>
 
     <script>
         document.getElementById('shipping').addEventListener('change', function() {
