@@ -35,6 +35,9 @@
             margin-left: auto; 
             margin-right: auto;
         }
+        #price { display: none; font-weight: bold; margin-top: 10px; }
+        .strikethrough { text-decoration: line-through; color: black; }
+        .discount { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -71,6 +74,8 @@
             <option value="pink">Розов</option>
         </select>
 
+        <p id="price">Цена: 820лв</p>
+
         <label for="payment">Начин на плащане:</label>
         <select id="payment" name="payment" required>
             <option value="cod">Наложен платеж</option>
@@ -90,6 +95,16 @@
             if (this.value !== 'home') document.getElementById('address').value = '';
             document.getElementById('office').disabled = this.value === 'home';
             if (this.value === 'home') document.getElementById('office').value = '';
+        });
+
+        document.getElementById('color').addEventListener('change', function() {
+            const priceElement = document.getElementById('price');
+            if (this.value === 'pink') {
+                priceElement.innerHTML = 'Цена: <span class="strikethrough">820лв</span> <span class="discount">780лв</span>';
+            } else {
+                priceElement.innerHTML = 'Цена: 820лв';
+            }
+            priceElement.style.display = 'block';
         });
 
         document.getElementById('checkoutForm').addEventListener('submit', function(event) {
