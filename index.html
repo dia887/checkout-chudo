@@ -52,15 +52,24 @@
 
         <label for="shipping">Изберете начин на доставка:</label>
         <select id="shipping" name="shipping" required>
+            <option value="" disabled selected>Изберете начин</option>
             <option value="office">До офис на Econt</option>
             <option value="home">До адрес</option>
         </select>
 
         <label for="office">Офис на Econt:</label>
-        <input type="text" id="office" name="office" placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'">
+        <input type="text" id="office" name="office" placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'" required>
 
         <label for="address">Адрес (ако е необходимо):</label>
-        <input type="text" id="address" name="address" disabled>
+        <input type="text" id="address" name="address" required>
+
+        <label for="color">Избери цвят:</label>
+        <select id="color" name="color" required>
+            <option value="" disabled selected>Изберете цвят</option>
+            <option value="turquoise">Тюркоаз</option>
+            <option value="mustard">Горчица</option>
+            <option value="pink">Розов</option>
+        </select>
 
         <label for="payment">Начин на плащане:</label>
         <select id="payment" name="payment" required>
