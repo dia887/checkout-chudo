@@ -5,37 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Econt Integration</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        form { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        body { 
+            font-family: 'Calibri', sans-serif; 
+            margin: 20px; 
+            text-align: center; 
+            background-color: #f8f8f8; 
+        }
+        form { 
+            max-width: 400px; 
+            margin: auto; 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 10px; 
+            text-align: left; 
+            background: white;
+        }
         label { display: block; margin-top: 10px; }
         input, select, button { width: 100%; padding: 10px; margin-top: 5px; }
         button { background: #007bff; color: white; border: none; cursor: pointer; }
         button:hover { background: #0056b3; }
+        h1, h2 { text-align: center; }
     </style>
 </head>
 <body>
+    <h1>Благодарим ти, че избра ЧУДОВЕЩИ!</h1>
     <h2>Checkout</h2>
     <form id="checkoutForm">
         <label for="name">Име и Фамилия:</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" name="name" required>
 
         <label for="email">Имейл:</label>
-        <input type="email" id="email" required>
+        <input type="email" id="email" name="email" required>
 
         <label for="phone">Телефон:</label>
-        <input type="tel" id="phone" required>
+        <input type="tel" id="phone" name="phone" required>
 
         <label for="shipping">Изберете начин на доставка:</label>
-        <select id="shipping" required>
+        <select id="shipping" name="shipping" required>
             <option value="office">До офис на Econt</option>
             <option value="home">До адрес</option>
         </select>
 
+        <label for="office">Офис на Econt:</label>
+        <input type="text" id="office" name="office">
+
         <label for="address">Адрес (ако е необходимо):</label>
-        <input type="text" id="address" disabled>
+        <input type="text" id="address" name="address" disabled>
 
         <label for="payment">Начин на плащане:</label>
-        <select id="payment" required>
+        <select id="payment" name="payment" required>
             <option value="cod">Наложен платеж</option>
             <option value="online">Онлайн плащане</option>
         </select>
@@ -50,7 +68,7 @@
 
         document.getElementById('checkoutForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            alert('Поръчката е приета! Ще получите потвърждение по имейл.');
+            alert('Поръчката е приета!');
         });
     </script>
 </body>
