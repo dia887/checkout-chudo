@@ -22,7 +22,7 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         label { display: block; margin-top: 10px; }
-        input, select, button { width: 100%; padding: 12px; margin-top: 5px; box-sizing: border-box; }
+        input, select, textarea, button { width: 100%; padding: 12px; margin-top: 5px; box-sizing: border-box; }
         button { background: #ec7878; color: white; border: none; cursor: pointer; padding: 12px; font-size: 16px; margin-top: 20px; display: block; }
         button:hover { background: #d66b6b; }
         h1, h2 { text-align: center; }
@@ -39,7 +39,7 @@
 </head>
 <body>
     <h1>Благодарим ти, че избра ЧУДОВЕЩИ!</h1>
-    <h2>Checkout</h2>
+    <h2>🛒 Количка</h2>
     <form id="checkoutForm">
         <label for="name">Име и Фамилия:</label>
         <input type="text" id="name" name="name" required>
@@ -58,10 +58,10 @@
         </select>
 
         <label for="office">Офис на Econt:</label>
-        <input type="text" id="office" name="office" placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'" required>
+        <input type="text" id="office" name="office" disabled placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'" required>
 
         <label for="address">Адрес (ако е необходимо):</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address" disabled placeholder="Въведи твоя адрес" required>
 
         <label for="color">Избери цвят:</label>
         <select id="color" name="color" required>
@@ -76,14 +76,20 @@
             <option value="cod">Наложен платеж</option>
         </select>
 
+        <label for="notes">Бележки:</label>
+        <textarea id="notes" name="notes" placeholder="Допълнителна информация"></textarea>
+
         <button type="submit">Потвърди поръчката</button>
     </form>
     
-    <p class="confirmation-text">Ще получите мейл с потвърждение за вашата пратка</p>
+    <p class="confirmation-text">Ще получиш мейл с потвърждение за твоята пратка</p>
 
     <script>
         document.getElementById('shipping').addEventListener('change', function() {
             document.getElementById('address').disabled = this.value !== 'home';
+            if (this.value !== 'home') document.getElementById('address').value = '';
+            document.getElementById('office').disabled = this.value === 'home';
+            if (this.value === 'home') document.getElementById('office').value = '';
         });
 
         document.getElementById('checkoutForm').addEventListener('submit', function(event) {
