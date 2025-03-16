@@ -61,10 +61,10 @@
         </select>
 
         <label for="office">Офис на Econt:</label>
-        <input type="text" id="office" name="office" disabled placeholder="Въведи номер на офис или адрес" required>
+        <input type="text" id="office" name="office" placeholder="Въведи номер на офис или адрес" required disabled>
 
         <label for="address">Адрес (ако е необходимо):</label>
-        <input type="text" id="address" name="address" disabled placeholder="Въведи твоя адрес" required>
+        <input type="text" id="address" name="address" placeholder="Въведи твоя адрес" required disabled>
 
         <label for="color">Избери цвят:</label>
         <select id="color" name="color" required>
@@ -113,12 +113,32 @@
             summaryBox.style.display = 'block';
         }
 
-        document.getElementById('shipping').addEventListener('change', updateSummary);
+        document.getElementById('shipping').addEventListener('change', function() {
+            const officeField = document.getElementById('office');
+            const addressField = document.getElementById('address');
+            if (this.value === 'office') {
+                officeField.disabled = false;
+                addressField.disabled = true;
+                addressField.value = ''; // Clear address field if switching to office
+            } else if (this.value === 'home') {
+                addressField.disabled = false;
+                officeField.disabled = true;
+                officeField.value = ''; // Clear office field if switching to home
+            }
+            updateSummary(); // Update summary when shipping method changes
+        });
+
         document.getElementById('color').addEventListener('change', function() {
             updateSummary();
             const priceElement = document.getElementById('price');
             priceElement.innerHTML = this.value === 'Горчица' ? 'Цена: <span class="strikethrough">820лв</span> <span class="discount">780лв</span>' : 'Цена: 820лв';
             priceElement.style.display = 'block';
+        });
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            alert('Поръчката е приета'); // Show the alert message
+            // You can also handle form submission here, e.g., send data to a server
         });
     </script>
 </body>
