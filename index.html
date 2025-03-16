@@ -56,12 +56,12 @@
         <label for="shipping">Изберете начин на доставка:</label>
         <select id="shipping" name="shipping" required>
             <option value="" disabled selected>Изберете начин</option>
-            <option value="office">До офис на Econt</option>
-            <option value="home">До адрес</option>
+            <option value="office">До офис на Econt + 10лв</option>
+            <option value="home">До адрес + 12лв</option>
         </select>
 
         <label for="office">Офис на Econt:</label>
-        <input type="text" id="office" name="office" disabled placeholder="Въведи номер на офис или адрес" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Въведи номер на офис или адрес'" required>
+        <input type="text" id="office" name="office" disabled placeholder="Въведи номер на офис или адрес" required>
 
         <label for="address">Адрес (ако е необходимо):</label>
         <input type="text" id="address" name="address" disabled placeholder="Въведи твоя адрес" required>
@@ -69,9 +69,9 @@
         <label for="color">Избери цвят:</label>
         <select id="color" name="color" required>
             <option value="" disabled selected>Изберете цвят</option>
-            <option value="turquoise">Тюркоаз</option>
-            <option value="mustard">Горчица</option>
-            <option value="pink">Розов</option>
+            <option value="Тюркоаз">Тюркоаз</option>
+            <option value="Горчица">Горчица</option>
+            <option value="Розов">Розов</option>
         </select>
 
         <p id="price">Цена: 820лв</p>
@@ -85,31 +85,40 @@
         <textarea id="notes" name="notes" placeholder="Допълнителна информация"></textarea>
 
         <button type="submit">Потвърди поръчката</button>
+        <div id="summary-box" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; background: #fff; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); display: none;">
+            <h3>Обобщение</h3>
+            <p id="selected-color">Цвят: -</p>
+            <p id="selected-shipping">Доставка: -</p>
+            <p id="final-price" style="font-weight: bold;">Обща цена: -</p>
+        </div>
     </form>
     
     <p class="confirmation-text">Ще получиш мейл с потвърждение за твоята пратка</p>
 
     <script>
-        document.getElementById('shipping').addEventListener('change', function() {
-            document.getElementById('address').disabled = this.value !== 'home';
-            if (this.value !== 'home') document.getElementById('address').value = '';
-            document.getElementById('office').disabled = this.value === 'home';
-            if (this.value === 'home') document.getElementById('office').value = '';
-        });
+        function updateSummary() {
+            const color = document.getElementById('color').value;
+            const shipping = document.getElementById('shipping').value;
+            const summaryBox = document.getElementById('summary-box');
+            const colorText = document.getElementById('selected-color');
+            const shippingText = document.getElementById('selected-shipping');
+            const finalPriceText = document.getElementById('final-price');
+            let basePrice = color === 'Горчица' ? 780 : color ? 820 : 0;
+            let shippingCost = shipping === 'home' ? 12 : shipping === 'office' ? 10 : 0;
+            let totalPrice = basePrice + shippingCost || '-';
+            
+            colorText.innerHTML = 'Цвят: ' + (color || '-');
+            shippingText.innerHTML = 'Доставка: ' + (shipping ? (shipping === 'home' ? 'До адрес +12лв' : 'До офис +10лв') : '-');
+            finalPriceText.innerHTML = 'Обща цена: ' + totalPrice + 'лв';
+            summaryBox.style.display = 'block';
+        }
 
+        document.getElementById('shipping').addEventListener('change', updateSummary);
         document.getElementById('color').addEventListener('change', function() {
+            updateSummary();
             const priceElement = document.getElementById('price');
-            if (this.value === 'mustard') {
-                priceElement.innerHTML = 'Цена: <span class="strikethrough">820лв</span> <span class="discount">780лв</span>';
-            } else {
-                priceElement.innerHTML = 'Цена: 820лв';
-            }
+            priceElement.innerHTML = this.value === 'Горчица' ? 'Цена: <span class="strikethrough">820лв</span> <span class="discount">780лв</span>' : 'Цена: 820лв';
             priceElement.style.display = 'block';
-        });
-
-        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Поръчката е приета!');
         });
     </script>
 </body>
