@@ -43,7 +43,7 @@
 <body>
     <h1>Благодарим ти, че избра ЧУДОВЕЩИ!</h1>
     <h2>🛒 Количка</h2>
-    <form id="checkoutForm">
+    <form id="checkoutForm" action="https://formspree.io/f/xvgkgrzb" method="POST">
         <label for="name">Име и Фамилия:</label>
         <input type="text" id="name" name="name" required>
 
@@ -84,6 +84,11 @@
         <label for="notes">Бележки:</label>
         <textarea id="notes" name="notes" placeholder="Допълнителна информация"></textarea>
 
+        <!-- Hidden inputs to store price data -->
+        <input type="hidden" id="basePrice" name="basePrice" value="820">
+        <input type="hidden" id="shippingCost" name="shippingCost" value="0">
+        <input type="hidden" id="finalPrice" name="finalPrice" value="820">
+
         <button type="submit">Потвърди поръчката</button>
         <div id="summary-box" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; background: #fff; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); display: none;">
             <h3>Обобщение</h3>
@@ -93,7 +98,7 @@
         </div>
     </form>
     
-    <p class="confirmation-text">Ще получиш мейл с потвърждение за твоята пратка</p>
+    <p class="confirmation-text">Ще получиш мейл с потвърдение за твоята пратка</p>
 
     <script>
         function updateSummary() {
@@ -107,6 +112,11 @@
             let shippingCost = shipping === 'home' ? 12 : shipping === 'office' ? 10 : 0;
             let totalPrice = basePrice + shippingCost || '-';
             
+            // Update hidden fields
+            document.getElementById('basePrice').value = basePrice;
+            document.getElementById('shippingCost').value = shippingCost;
+            document.getElementById('finalPrice').value = totalPrice;
+
             colorText.innerHTML = 'Цвят: ' + (color || '-');
             shippingText.innerHTML = 'Доставка: ' + (shipping ? (shipping === 'home' ? 'До адрес +12лв' : 'До офис +10лв') : '-');
             finalPriceText.innerHTML = 'Обща цена: ' + totalPrice + 'лв';
@@ -137,8 +147,25 @@
 
         document.getElementById('checkoutForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
-            alert('Поръчката е приета!'); // Show the alert message
-            // You can also handle form submission here, e.g., send data to a server
+            alert('Поръчката е приета'); // Show the alert message
+
+            // Send the form data to Formspree
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: this.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Успешно изпратено!');
+                } else {
+                    alert('Възникна грешка. Моля, опитайте отново.');
+                }
+            }).catch(error => {
+                alert('Възникна грешка. Моля, опитайте отново.');
+            });
         });
     </script>
 </body>
